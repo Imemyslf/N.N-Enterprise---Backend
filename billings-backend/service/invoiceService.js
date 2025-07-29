@@ -1,6 +1,6 @@
 
 import nodemailer from "nodemailer";
-import { db } from "../src/database.js";
+import { db } from "../database/database.js";
 
 const deductDay = async () => {
     try {

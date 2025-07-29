@@ -1,4 +1,4 @@
-import { db } from "../src/database.js";
+import { db } from "../database/database.js";
 import { Decimal128 } from "mongodb";
 
 const getNextInvoiceNos = async () => {

@@ -1,5 +1,5 @@
 import express from "express";
-import { db, connectToDb } from "./database.js";
+import { db, connectToDb } from "../database/database.js";
 import cors from "cors";
 import fs from "fs";
 import path from "path";

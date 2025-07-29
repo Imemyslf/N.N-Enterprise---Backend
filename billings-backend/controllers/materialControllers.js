@@ -1,5 +1,5 @@
 import { Decimal128 } from "mongodb";
-import { db } from "../src/database.js";
+import { db } from "../database/database.js";
 import { ObjectId } from "mongodb";
 
 const getMaterailDetails = async (req, res) => {
