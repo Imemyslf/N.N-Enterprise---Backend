@@ -13,7 +13,6 @@ import billingRoute from "../route/billingRoute.js";
 import { upload } from "../middleware/upload.js";
 import { deductDay, retrieveInvoice } from "../service/invoiceService.js";
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -26,11 +25,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "../build")));
 
 // console.log(process.env.USER_EMAIL);
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN,
-  })
-);
+app.use(cors());
 
 const dirPDF = path.join(path.join(os.homedir(), "Downloads"), "Invoice");
 
@@ -47,9 +42,9 @@ app.get("/", (req, res) => {
   res.status(200).send("Hello");
 });
 
-app.use(`/api/company`,companyRoute);
-app.use(`/api/materials`,materialRoute);
-app.use(`/api/billings`,billingRoute);
+app.use(`/api/company`, companyRoute);
+app.use(`/api/materials`, materialRoute);
+app.use(`/api/billings`, billingRoute);
 
 app.post(`/api/invoice/upload`, upload.single("file"), async (req, res) => {
   console.log("Inside Invoice upload route");
@@ -142,6 +137,14 @@ app.get(`/api/sendMail`, async (req, res) => {
     subject: "Invoice",
     attachments: [{ filename: `${invoice}.pdf`, path: file }],
   };
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.USER_EMAIL.replace(/"/g, ""), // remove quotes if needed
+      pass: process.env.USER_PASS,
+    },
+  });
 
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
